@@ -1,28 +1,49 @@
-import importlib.util
+import importlib
 import sys
 
-DEPENDENCIES = [
-    "flask", "PyQt5", "plotly", "pylatex", "pytest", "pytest_qt",
-    "numpy", "pandas", "matplotlib", "requests"
+# List of required packages
+REQUIRED_PACKAGES = [
+    "django",
+    "djangorestframework",
+    "pyqt5",
+    "plotly",
+    "pylatex",
+    "pytest",
+    "matplotlib",
+    "pandas",
+    "numpy",
+    "sqlite3",
+    "psycopg2",
+    "requests",
+    "flask",
+    "gunicorn"
 ]
 
 
-def check_dependency(module_name):
-    spec = importlib.util.find_spec(module_name)
-    return spec is not None
+def check_package(package):
+    """Check if a package is installed."""
+    try:
+        importlib.import_module(package)
+        print(f"[✔] {package} is installed.")
+    except ImportError:
+        print(f"[✖] {package} is MISSING. Install it using `pip install {package}`")
 
 
 def main():
-    missing_packages = [pkg for pkg in DEPENDENCIES if not check_dependency(pkg)]
+    print("\n=== Verifying Installation ===\n")
 
-    if missing_packages:
-        print("❌ Missing dependencies:", ", ".join(missing_packages))
-        print("Try installing them using:")
-        print("  pip install -r requirements.txt  (for pip users)")
-        print("  conda env update --file environment.yml  (for Conda users)")
-        sys.exit(1)
+    # Check each package
+    for package in REQUIRED_PACKAGES:
+        check_package(package)
+
+    # Check Python version
+    python_version = sys.version_info
+    if python_version.major == 3 and python_version.minor >= 9:
+        print(f"\n[✔] Python {python_version.major}.{python_version.minor} detected.")
     else:
-        print("✅ All dependencies installed correctly!")
+        print(f"\n[✖] Python 3.9+ is required. Detected: {python_version.major}.{python_version.minor}")
+
+    print("\nVerification complete!\n")
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ class CostComponent(ABC):
         :param category: Economic, Environmental, or Social
         :param is_initial: True if an initial cost, False if future cost
         :param is_recurring: True if recurring, False if one-time
-        :param present_worth_factor: Discounting factor for future costs
+        :param present_worth_factor: Discounting factor for future costs (present_worth_factor)
         """
         self.amount = amount
         self.category = category

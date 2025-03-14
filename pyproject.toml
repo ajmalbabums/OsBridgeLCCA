@@ -1,64 +1,37 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "OsBridgeLCCA"
+name = "osbridgelcca"
 version = "0.1.0"
-description = "Life Cycle Cost Assessment tool for bridges"
+description = "Life Cycle Cost Analysis for Bridges"
 authors = [
-    { name = "Your Name", email = "your.email@example.com" }
+    {name = "Your Name", email = "your.email@example.com"}
 ]
-license = { text = "MIT" }
-readme = "README.md"
+license = {text = "MIT"}
 dependencies = [
-    # Core
-    "numpy",
-    "pandas",
-    "scipy",
-
-    # Backend (API)
-    "flask",
-    "flask-restful",
-    "flask-cors",
-    "sqlite3",
-
-    # Desktop (GUI)
-    "PyQt6",
-    "PyQt6-WebEngine",
-
-    # Visualization
+    "django",
+    "djangorestframework",
+    "pyqt5",
     "plotly",
-    "matplotlib",
-
-    # Report generation
     "pylatex",
-    "openpyxl",
-
-    # Testing
     "pytest",
-    "pytest-qt",
-    "pytest-cov",
+    "matplotlib",
+    "pandas",
+    "numpy",
+    "psycopg2-binary",
     "requests",
-
-    # Environment configuration
-    "python-dotenv"
+    "flask",
+    "gunicorn",
 ]
 
 [tool.setuptools]
-packages = ["src"]
+packages = ["osbridgelcca"]
+package-dir = {"" = "src"}
 
-[project.optional-dependencies]
-dev = [
-    "black",    # Code formatting
-    "flake8",   # Linting
-    "mypy",     # Type checking
-    "pre-commit"
-]
+[tool.setuptools.package-data]
+"osbridgelcca" = ["databases/*.db", "resources/**/*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--cov=src --cov-report=term-missing"
-
-[project.scripts]
-verify_installation = "scripts.verify_installation:main"
