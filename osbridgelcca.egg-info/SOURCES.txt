@@ -1,8 +1,0 @@
-LICENSE
-README.md
-pyproject.toml
-osbridgelcca.egg-info/PKG-INFO
-osbridgelcca.egg-info/SOURCES.txt
-osbridgelcca.egg-info/dependency_links.txt
-osbridgelcca.egg-info/requires.txt
-osbridgelcca.egg-info/top_level.txt
