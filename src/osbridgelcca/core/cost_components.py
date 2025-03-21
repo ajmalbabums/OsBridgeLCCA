@@ -13,11 +13,11 @@ class CostComponent(ABC):
         :param is_recurring: True if recurring, False if one-time
         :param pwf: Discounting factor for future costs
         """
-        self.amount = amount
+        self.amount = None
         self.category = category
-        self.is_initial = is_initial
-        self.is_recurring = is_recurring
-        self.pwf = pwf
+        self.is_initial = None
+        self.is_recurring = None
+        self.pwf = None
 
     @abstractmethod
     def calculate_cost(self):
