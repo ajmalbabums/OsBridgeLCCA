@@ -25,8 +25,30 @@ class CostComponent(ABC):
         pass
 
 
-def calculate_pwf(discount_rate, period, design_life):
-    return sum(1 / ((1 + discount_rate) ** (i * period)) for i in range(1, int(design_life / period) + 1))
+def calculate_pwf(discount_rate, design_life, is_initial=False, is_recurring=True, interval=1, future_year=None):
+    """
+    Calculates the Present Worth Factor (PWF) based on cost type.
+
+    :param discount_rate: Discount rate (decimal form, e.g., 0.05 for 5%).
+    :param design_life: Total design life in years.
+    :param is_initial: True for initial cost (PWF = 1).
+    :param is_recurring: True for recurring costs.
+    :param interval: Interval in years for recurring costs (default is 1).
+    :param future_year: Year when a non-recurring future cost occurs.
+    :return: Present Worth Factor (PWF).
+    """
+    if is_initial:
+        return 1.0  # Initial cost has no discounting
+
+    elif not is_recurring:
+        if future_year is None:
+            raise ValueError("future_year must be provided for non-recurring future costs")
+        return 1 / ((1 + discount_rate) ** future_year)
+
+    else:
+        if interval is None:
+            raise ValueError("interval must be provided for recurring costs")
+        return sum(1 / ((1 + discount_rate) ** (i * interval)) for i in range(1, int(design_life / interval) + 1))
 
 
 class InitialConstructionCost(CostComponent):
