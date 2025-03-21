@@ -3,8 +3,7 @@ class BridgeLCC:
     
     def __init__(self, project_name, inputs):
         self.project_name = project_name
-        self.inputs = inputs  # Dictionary of user inputs
-        self.outputs = {}
+        self.inputs = inputs  # input object
 
     def calculate_lcc(self):
         """Calculate the total life cycle cost based on input parameters."""
