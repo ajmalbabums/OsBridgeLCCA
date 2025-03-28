@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import pandas as pd
 
 
 class CostComponent(ABC):
@@ -44,10 +45,9 @@ def calculate_pwf(discount_rate=None, design_life=None, is_initial=False, is_rec
 
 
 class InitialConstructionCost(CostComponent):
-    def __init__(self, quantity, rate):
+    def __init__(self, material_boq: pd.DataFrame):
         super().__init__()
-        self.quantity = quantity
-        self.rate = rate
+        self.material_boq = material_boq
         self.category = "Economic"
         self.is_initial = True
         self.is_recurring = False
@@ -55,14 +55,13 @@ class InitialConstructionCost(CostComponent):
         self.amount = self.calculate_cost()
 
     def calculate_cost(self):
-        return self.quantity * self.rate
+        return (self.material_boq.iloc[:, 2] * self.material_boq.iloc[:, 3]).sum()
 
 
 class InitialCarbonEmissionCost(CostComponent):
-    def __init__(self, material_quantity, carbon_emission_factor, carbon_cost):
+    def __init__(self, material_boq: pd.DataFrame, carbon_cost):
         super().__init__()
-        self.material_quantity = material_quantity
-        self.carbon_emission_factor = carbon_emission_factor
+        self.material_boq = material_boq
         self.carbon_cost = carbon_cost
         self.category = "Environmental"
         self.is_initial = True
@@ -71,7 +70,7 @@ class InitialCarbonEmissionCost(CostComponent):
         self.amount = self.calculate_cost()
 
     def calculate_cost(self):
-        return (self.material_quantity * self.carbon_emission_factor) * self.carbon_cost
+        return self.carbon_cost * (self.material_boq.iloc[:, 2] * self.material_boq.iloc[:, 4]).sum()
 
 
 class PeriodicMaintenanceCost(CostComponent):
